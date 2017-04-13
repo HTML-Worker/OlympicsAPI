@@ -7,6 +7,8 @@
  */
 package com.school.restws;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,6 +16,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import com.school.beans.idtest;
+import com.school.service.select;
 
 /**
  * 
@@ -56,6 +61,10 @@ public class UserInfo {
 	public String getUserJsonp(@QueryParam("data") String data, @QueryParam("callback") String jsonpcallback) {
 		// System.out.println("data="+ data);
 		// System.out.println("jsonpcallback="+ jsonpcallback);
+		select select = new select();
+		ArrayList<idtest> arrayList = select.getDBMessage();
+		idtest dbMessage = arrayList.get(0);
+	    System.out.println(dbMessage.getId());
 		User user = new User();
 		user.setAge("27");
 		user.setUserId("005");
