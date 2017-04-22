@@ -48,7 +48,8 @@ public class UserInfo {
 	
 	@GET
 	@Path("/aboutTitle")
-	@Produces({MediaType.APPLICATION_JSON})
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
 	public String  getAboutTitle() {
 		select select = new select();
 		ArrayList<about> list = select.getAbout();
@@ -58,7 +59,8 @@ public class UserInfo {
 	
 	@GET
 	@Path("/aboutTitle/{name}/{id}")
-	@Produces({MediaType.APPLICATION_JSON})
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
 	@Consumes("application/x-www-form-urlencoded")
 	public String  getAboutTitle(@PathParam("name") String name, @PathParam("id") int id) {
 		select select = new select();
@@ -69,7 +71,8 @@ public class UserInfo {
 	
 	@GET
 	@Path("/{id}")
-	@Produces({MediaType.APPLICATION_JSON})
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
 	public String  getAboutID(@PathParam("id") int id) {
 //		select select = new select();
 //		ArrayList<about> list = select.getAbout();
