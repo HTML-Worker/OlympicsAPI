@@ -9,38 +9,49 @@ package com.school.service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.school.beans.idtest;
+import com.school.beans.about;
 import com.school.dbHelp.jdbc;
 
 
 public class select {
-	static String sql = "select * from idtest";
+	static String about = "select * from about";
+	Connection conn = null;
+	Statement stat = null;
+	ResultSet rs = null;
 	
-	public ArrayList<idtest> getDBMessage(){
-		Connection conn = null;
-		Statement stat = null;
-		ResultSet rs = null;
-		ArrayList<idtest> list = new ArrayList<idtest>();
-		
+	/**
+	 * 获取关于页面的数据
+	 * @return
+	 */
+	public ArrayList<about> getAbout() {
 		conn = jdbc.getConn();
-		
+		ArrayList<about> list = new ArrayList<about>();
 		try {
 			stat = conn.createStatement();
-			rs = stat.executeQuery(sql);
-			idtest jj = new idtest();
-			while(rs.next()){
-				jj.setId(rs.getInt("id"));
-				list.add(jj);
+			rs = stat.executeQuery(about);
+			while(rs.next()) {
+				about about = new about();
+				about.setAbout_id(rs.getString("id"));
+				about.setAbout_title(rs.getString("about_title"));
+				about.setAbout_content(rs.getString("about_content"));
+				about.setAbout_time(rs.getString("about_time"));
+				list.add(about);
+//				System.out.println(rs.getString("about_title"));
+//				System.out.println(about);
+//				System.out.println(list);
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
-		}finally{
+		}finally {
 			jdbc.close(conn,stat,rs);
 		}
-		return list;
+		
+		return list;	
 	}
 }
