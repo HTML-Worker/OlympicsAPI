@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.school.beans.about;
 import com.school.service.select;
@@ -51,7 +52,18 @@ public class UserInfo {
 	public String  getAboutTitle() {
 		select select = new select();
 		ArrayList<about> list = select.getAbout();
-		//System.out.println(list);
+		//System.out.println(id);
+		return ""+ list +"";
+	}
+	
+	@GET
+	@Path("/aboutTitle/{name}/{id}")
+	@Produces({MediaType.APPLICATION_JSON})
+	@Consumes("application/x-www-form-urlencoded")
+	public String  getAboutTitle(@PathParam("name") String name, @PathParam("id") int id) {
+		select select = new select();
+		ArrayList<about> list = select.getAboutContent(name, id);
+		//System.out.println(name + id);
 		return ""+ list +"";
 	}
 	
