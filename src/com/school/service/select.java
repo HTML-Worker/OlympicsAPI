@@ -13,36 +13,37 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.school.beans.about;
+import com.school.beans.document;
 import com.school.dbHelp.jdbc;
 
 
 public class select {
-	static String about = "select * from about";
 	Connection conn = null;
 	Statement stat = null;
 	ResultSet rs = null;
 	
+	
 	/**
-	 * 获取关于页面的数据
+	 * 获取关于页面的文章内容
+	 * @param tableName
+	 * @param id
 	 * @return
 	 */
-	public ArrayList<about> getAbout() {
+	public ArrayList<document> getContent(String tableName,int id) {
+		String sql = "select id,content from " + tableName + " where id=" + id;
 		conn = jdbc.getConn();
-		ArrayList<about> list = new ArrayList<about>();
+		ArrayList<document> list = new ArrayList<document>();
 		try {
 			stat = conn.createStatement();
-			rs = stat.executeQuery(about);
+			rs = stat.executeQuery(sql);
 			while(rs.next()) {
-				about about = new about();
-				about.setAbout_id(rs.getString("id"));
-				about.setAbout_title(rs.getString("about_title"));
-				about.setAbout_content(rs.getString("about_content"));
-				about.setAbout_time(rs.getString("about_time"));
-				list.add(about);
-//				System.out.println(rs.getString("about_title"));
-//				System.out.println(about);
-//				System.out.println(list);
+				document document = new document();
+				document.setId(rs.getString("id"));
+				//document.setTitle(rs.getString("title"));
+				document.setContent(rs.getString("content"));
+				//document.setCount(rs.getString("count"));
+				//document.setTime(rs.getString("time"));
+				list.add(document);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -52,23 +53,32 @@ public class select {
 			jdbc.close(conn,stat,rs);
 		}
 		
-		return list;	
+		return list;
 	}
 	
-	public ArrayList<about> getAboutContent(String tableName,int id) {
-		String contentSql = "select * from " + tableName + " where id=" + id;
+	
+	public ArrayList<document> getDocumentTitle(String tableName, int start, int end) {
+		if (start <= 0) {
+			start = 0;
+		}
+		if (end <= 0) {
+			end = 7;
+		}
+		String sql = "select id,title,count,time from " + tableName + " order by id desc limit " + start + "," + end;
 		conn = jdbc.getConn();
-		ArrayList<about> list = new ArrayList<about>();
+		ArrayList<document> list = new ArrayList<document>();
 		try {
 			stat = conn.createStatement();
-			rs = stat.executeQuery(contentSql);
+			rs = stat.executeQuery(sql);
 			while(rs.next()) {
-				about about = new about();
-				about.setAbout_id(rs.getString("id"));
-				about.setAbout_title(rs.getString("about_title"));
-				about.setAbout_content(rs.getString("about_content"));
-				about.setAbout_time(rs.getString("about_time"));
-				list.add(about);
+				document document = new document();
+				document.setId(rs.getString("id"));
+				document.setTitle(rs.getString("title"));
+				//document.setContent(rs.getString("content"));
+				document.setCount(rs.getString("count"));
+				document.setTime(rs.getString("time"));
+				list.add(document);
+				//System.out.println(rs.getString("title"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

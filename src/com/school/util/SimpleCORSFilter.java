@@ -10,6 +10,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
 
+
+/**
+ * ÃÌº”øÁ”Ú«Î«ÛÕ∑
+ * @author Long
+ *
+ */
 public class SimpleCORSFilter implements Filter { 
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException { 
     HttpServletResponse response = (HttpServletResponse) res; 
