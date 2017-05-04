@@ -5,7 +5,7 @@
  * @author Long
  *
  */
-package com.school.restws;
+package com.school.api;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ public class UserInfo {
 	@GET
 	@Path("/document/{name}/{id}")
 	@Produces("text/plain;charset=gbk")
-	//@Produces({MediaType.APPLICATION_JSON})
+	//@Produces({MediaType.TEXT_PLAIN_TYPE})
 	@Consumes("application/x-www-form-urlencoded")
 	public String  getContent(@PathParam("name") String name, @PathParam("id") int id) {
 		select select = new select();

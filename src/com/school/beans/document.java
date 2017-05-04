@@ -39,8 +39,11 @@ public class document {
 	}
 	@Override
 	public String toString() {
-		return "{ \"id\" : \"" + id + "\", \"title\" : \"" + title + "\", \"content\" :\""  
-                + content + "\", \"count\" : \"" + count + "\" , \"time\" :\"" + time + "\"}";
+		return "{ \"id\" : \"" + id + "\", "
+				+ "\"title\" : \"" + title + "\", "
+						+ "\"content\" :\"" + content + "\", "
+								+ "\"count\" : \"" + count + "\" , "
+										+ "\"time\" :\"" + time + "\"}";
 	}
 	
 	
