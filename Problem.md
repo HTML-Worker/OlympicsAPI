@@ -8,7 +8,7 @@
 ### 使用数组拼装sql语句时，数据加 ‘’，切不能有[];
 
     去除[],的方法：
-    String s = Pattern.compile("\\b([\\w\\W])\\b").matcher(list.toString().substring(1,list.toString().length()-1)).replaceAll("'$1'");
+    String s = list.toString().substring(1,list.toString().length()-1);
 
     加引号的方法：
     list.add("'" + json.getString("username") + "'");
@@ -55,3 +55,6 @@
                 alert(data);
             }).error(function (data) {
             });
+
+### 删除数据库自增长id
+    truncate table 你的表名 //这样不但将数据全部删除，而且重新定位自增的字段

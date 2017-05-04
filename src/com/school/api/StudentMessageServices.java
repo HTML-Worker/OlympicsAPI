@@ -16,10 +16,9 @@ public class StudentMessageServices {
 	//@Produces({MediaType.APPLICATION_JSON})
 	@Consumes("application/x-www-form-urlencoded")
     public String postStudentMessage(String data) {
-//        System.out.println(data);
+        //System.out.println(data);
         updata student = new updata();
         student.getStudentAllMessage(data);
-        
-        return "123";
+        return "200";
     }  
 }

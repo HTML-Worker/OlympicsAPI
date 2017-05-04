@@ -10,7 +10,9 @@ import net.sf.json.JSONObject;
  *
  */
 public class studentRegisterMessage {
+	
 	private int id;
+	private int examine;
 	private String username;
 	private String password;
 	private String name;
@@ -23,6 +25,13 @@ public class studentRegisterMessage {
 	private String language;
 	private String teacherName;
 	private String entryType;
+	
+	public int getExamine() {
+		return examine;
+	}
+	public void setExamine(int examine) {
+		this.examine = examine;
+	}
 	public int getId() {
 		return id;
 	}
@@ -115,9 +124,15 @@ public class studentRegisterMessage {
 																				+ "\"grade\" : \"" + grade + "\","
 																						+ "\"language\" : \"" + language + "\","
 																								+ "\"teacherName\" : \"" + teacherName + "\","
-																										+ "\"entryType\" : \"" + entryType + "\"}";
+																										+ "\"entryType\" : \"" + entryType + "\","
+																											+ "\"examine\" : \"" + examine + "\"}";
 	}
 	
+	/**
+	 * 生成数据录入的list格式方便拼装sql语言
+	 * @param json
+	 * @return
+	 */
 	public ArrayList<Object> pushData(JSONObject json) {
 		ArrayList<Object> list = new  ArrayList<>();
 		list.add(0);
@@ -133,6 +148,7 @@ public class studentRegisterMessage {
 		list.add("'" + json.getString("language") + "'");
 		list.add("'" + json.getString("teacherName") + "'");
 		list.add("'" + json.getString("entryType") + "'");
+		list.add(0);
 		//System.out.println(list);
 		return list;
 		

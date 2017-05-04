@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 import com.school.beans.studentRegisterMessage;
 import com.school.dbHelp.jdbc;
@@ -17,17 +16,23 @@ public class updata {
 	Connection conn = null;
 	Statement stat = null;
 	ResultSet rs = null;
+	
+	/**
+	 * 录入学生注册信息
+	 * @param data
+	 * @return
+	 */
 	public ArrayList<studentRegisterMessage> getStudentAllMessage(String data) {
 		JSONObject  json = JSONObject .fromObject(data);
 		studentRegisterMessage student = new studentRegisterMessage();
 		ArrayList<Object> list = student.pushData(json);
-		String s = Pattern.compile("\\b([\\w\\W])\\b").matcher(list.toString().substring(1,list.toString().length()-1)).replaceAll("'$1'");  
+		String s = list.toString().substring(1,list.toString().length()-1);
 		
 		String sql = "insert into student_login_message values("+ s +")";
 		conn = jdbc.getConn();
 		try {
 			stat = conn.createStatement();
-			//System.out.println(sql);
+			System.out.println(sql);
 			stat.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
