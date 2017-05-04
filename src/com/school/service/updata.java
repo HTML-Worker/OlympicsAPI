@@ -5,12 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.regex.Pattern;
 
 import com.school.beans.studentRegisterMessage;
 import com.school.dbHelp.jdbc;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 
@@ -19,12 +18,12 @@ public class updata {
 	Statement stat = null;
 	ResultSet rs = null;
 	public ArrayList<studentRegisterMessage> getStudentAllMessage(String data) {
-		JSONArray json = JSONArray.fromObject(data);
-		System.out.println(json);
-		
-		//studentRegisterMessage student = new studentRegisterMessage();
-		//ArrayList<studentRegisterMessage> list = new ArrayList<studentRegisterMessage>();
-//		String sql = "insert into student_login_message values()";
+		JSONObject  json = JSONObject .fromObject(data);
+		studentRegisterMessage student = new studentRegisterMessage();
+		ArrayList<Object> list = student.pushData(json);
+		String s = Pattern.compile("\\b([\\w\\W])\\b").matcher(list.toString().substring(1,list.toString().length()-1)).replaceAll("'$1'");  
+		String sql = "insert into student_login_message values("+ s +")";
+		System.out.println(sql);
 //		conn = jdbc.getConn();
 //		ArrayList<studentRegisterMessage> list = new ArrayList<studentRegisterMessage>();
 //		try {

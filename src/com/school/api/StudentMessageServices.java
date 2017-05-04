@@ -1,18 +1,11 @@
 package com.school.api;
 
-import java.util.ArrayList;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
-import com.school.beans.studentRegisterMessage;
 import com.school.service.updata;
-
-import net.sf.json.JSONObject;
 
 @Path("StudentMessage")
 public class StudentMessageServices {

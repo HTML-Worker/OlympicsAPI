@@ -1,6 +1,8 @@
 package com.school.beans;
 
-import net.sf.json.JSONArray;
+import java.util.ArrayList;
+
+import net.sf.json.JSONObject;
 
 /**
  * 学生注册信息
@@ -114,6 +116,26 @@ public class studentRegisterMessage {
 																						+ "\"language\" : \"" + language + "\","
 																								+ "\"teacherName\" : \"" + teacherName + "\","
 																										+ "\"entryType\" : \"" + entryType + "\"}";
+	}
+	
+	public ArrayList<Object> pushData(JSONObject json) {
+		ArrayList<Object> list = new  ArrayList<>();
+		list.add(0);
+		list.add("'" + json.getString("username") + "'");
+		list.add("'" + json.getString("password") + "'");
+		list.add("'" + json.getString("name") + "'");
+		list.add("'" + json.getString("sex") + "'");
+		list.add("'" + json.getString("peopleId") + "'");
+		list.add("'" + json.getString("phone") + "'");
+		list.add("'" + json.getString("email") + "'");
+		list.add("'" + json.getString("school") + "'");
+		list.add("'" + json.getString("grade") + "'");
+		list.add("'" + json.getString("language") + "'");
+		list.add("'" + json.getString("teacherName") + "'");
+		list.add("'" + json.getString("entryType") + "'");
+		//System.out.println(list);
+		return list;
+		
 	}
 	
 }
