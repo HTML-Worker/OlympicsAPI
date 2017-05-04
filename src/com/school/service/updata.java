@@ -22,21 +22,21 @@ public class updata {
 		studentRegisterMessage student = new studentRegisterMessage();
 		ArrayList<Object> list = student.pushData(json);
 		String s = Pattern.compile("\\b([\\w\\W])\\b").matcher(list.toString().substring(1,list.toString().length()-1)).replaceAll("'$1'");  
+		
 		String sql = "insert into student_login_message values("+ s +")";
-		System.out.println(sql);
-//		conn = jdbc.getConn();
-//		ArrayList<studentRegisterMessage> list = new ArrayList<studentRegisterMessage>();
-//		try {
-//			stat = conn.createStatement();
-//			rs = stat.executeQuery(sql);
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return null;
-//		}finally {
-//			jdbc.close(conn,stat,rs);
-//		}
-//		
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			//System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
 		return null;
 	}
 }
