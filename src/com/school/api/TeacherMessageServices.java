@@ -7,18 +7,18 @@ import javax.ws.rs.Produces;
 
 import com.school.service.updata;
 
-@Path("StudentMessage")
-public class StudentMessageServices {
+@Path("TeacherMessage")
+public class TeacherMessageServices {
 	
 	@POST
-	@Path("/studentMessage")
+	@Path("/teacherMessage")
 	@Produces("text/plain;charset=gbk")
 	//@Produces({MediaType.APPLICATION_JSON})
 	@Consumes("application/x-www-form-urlencoded")
     public String postStudentMessage(String data) {
         //System.out.println(data);
         updata student = new updata();
-        student.getStudentAllMessage(data);
+        student.getTeacherAllMessage(data);
         return "200";
     }
 }

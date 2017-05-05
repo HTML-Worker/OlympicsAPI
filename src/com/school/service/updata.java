@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.school.beans.studentRegisterMessage;
+import com.school.beans.teacherRegisterMessage;
 import com.school.dbHelp.jdbc;
 
 import net.sf.json.JSONObject;
@@ -29,6 +30,34 @@ public class updata {
 		String s = list.toString().substring(1,list.toString().length()-1);
 		
 		String sql = "insert into student_login_message values("+ s +")";
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 录入教师注册信息
+	 * @param data
+	 * @return
+	 */
+	public ArrayList<teacherRegisterMessage> getTeacherAllMessage(String data) {
+		JSONObject  json = JSONObject .fromObject(data);
+		teacherRegisterMessage teacher = new teacherRegisterMessage();
+		ArrayList<Object> list = teacher.pushData(json);
+		String s = list.toString().substring(1,list.toString().length()-1);
+		
+		String sql = "insert into teacher_login_message values("+ s +")";
 		conn = jdbc.getConn();
 		try {
 			stat = conn.createStatement();

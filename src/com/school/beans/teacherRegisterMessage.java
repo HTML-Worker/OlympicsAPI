@@ -4,16 +4,9 @@ import java.util.ArrayList;
 
 import net.sf.json.JSONObject;
 
-/**
- * 学生注册信息
- * @author Long
- *
- */
-public class studentRegisterMessage {
-	
+public class teacherRegisterMessage {
 	private int id;
 	private int examine;//审核状态
-	private int pay;//缴费状态
 	private String username;
 	private String password;
 	private String name;
@@ -22,35 +15,19 @@ public class studentRegisterMessage {
 	private String phone;
 	private String email;
 	private String school;
-	private String grade;
-	private String language;
-	private String teacherName;
-	private String entryType;
-	private String group;
-	
-	public String getGroup() {
-		return group;
+	private String address;
+	private String zipCode;
+	public int getId() {
+		return id;
 	}
-	public void setGroup(String group) {
-		this.group = group;
-	}
-	public int getPay() {
-		return pay;
-	}
-	public void setPay(int pay) {
-		this.pay = pay;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public int getExamine() {
 		return examine;
 	}
 	public void setExamine(int examine) {
 		this.examine = examine;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}
 	public String getUsername() {
 		return username;
@@ -100,30 +77,19 @@ public class studentRegisterMessage {
 	public void setSchool(String school) {
 		this.school = school;
 	}
-	public String getGrade() {
-		return grade;
+	public String getAddress() {
+		return address;
 	}
-	public void setGrade(String grade) {
-		this.grade = grade;
+	public void setAddress(String address) {
+		this.address = address;
 	}
-	public String getLanguage() {
-		return language;
+	public String getZipCode() {
+		return zipCode;
 	}
-	public void setLanguage(String language) {
-		this.language = language;
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
-	public String getTeacherName() {
-		return teacherName;
-	}
-	public void setTeacherName(String teacherName) {
-		this.teacherName = teacherName;
-	}
-	public String getEntryType() {
-		return entryType;
-	}
-	public void setEntryType(String entryType) {
-		this.entryType = entryType;
-	}
+	
 	@Override
 	public String toString() {
 		return "{\"id\" : \"" + id + "\","
@@ -135,13 +101,9 @@ public class studentRegisterMessage {
 														+ "\"phone\" : \"" + phone + "\","
 																+ "\"email\" : \"" + email + "\","
 																		+ "\"school\" : \"" + school + "\","
-																				+ "\"grade\" : \"" + grade + "\","
-																						+ "\"language\" : \"" + language + "\","
-																								+ "\"teacherName\" : \"" + teacherName + "\","
-																										+ "\"entryType\" : \"" + entryType + "\","
-																											+ "\"pay\" : \"" + pay + "\","
-																												+ "\"group\" : \"" + group + "\","
-																													+ "\"examine\" : \"" + examine + "\"}";
+																				+ "\"address\" : \"" + address + "\","
+																						+ "\"zipCode\" : \"" + zipCode + "\","
+																								+ "\"examine\" : \"" + examine + "\"}";
 	}
 	
 	/**
@@ -160,16 +122,11 @@ public class studentRegisterMessage {
 		list.add("'" + json.getString("phone") + "'");
 		list.add("'" + json.getString("email") + "'");
 		list.add("'" + json.getString("school") + "'");
-		list.add("'" + json.getString("grade") + "'");
-		list.add("'" + json.getString("language") + "'");
-		list.add("'" + json.getString("teacherName") + "'");
-		list.add("'" + json.getString("entryType") + "'");
+		list.add("'" + json.getString("address") + "'");
+		list.add("'" + json.getString("zipCode") + "'");
 		list.add(0);//审核状态默认为0
-		list.add(0);//缴费状态默认为0
-		list.add("'" + "'");//参赛组别默认为空
 		//System.out.println(list);
 		return list;
 		
 	}
-	
 }
