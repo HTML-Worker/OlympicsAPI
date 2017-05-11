@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.school.beans.land;
 import com.school.beans.studentRegisterMessage;
 import com.school.beans.teacherRegisterMessage;
 import com.school.dbHelp.jdbc;
@@ -13,7 +14,7 @@ import com.school.dbHelp.jdbc;
 import net.sf.json.JSONObject;
 
 
-public class updata {
+public class insert {
 	Connection conn = null;
 	Statement stat = null;
 	ResultSet rs = null;
@@ -33,7 +34,7 @@ public class updata {
 		conn = jdbc.getConn();
 		try {
 			stat = conn.createStatement();
-			System.out.println(sql);
+			//System.out.println(sql);
 			stat.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -61,7 +62,7 @@ public class updata {
 		conn = jdbc.getConn();
 		try {
 			stat = conn.createStatement();
-			System.out.println(sql);
+			//System.out.println(sql);
 			stat.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -72,5 +73,30 @@ public class updata {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Â¼ÈëµÇÂ¼ÐÅÏ¢
+	 * @param data
+	 * @return
+	 */
+	public void pushLoginData(String data) {
+		JSONObject  json = JSONObject .fromObject(data);
+		land loginData = new land();
+		ArrayList<Object> list = loginData.pushData(json);
+		String s = list.toString().substring(1,list.toString().length()-1);
+		
+		String sql = "insert into land values("+ s +")";
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			//System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
 	}
 }

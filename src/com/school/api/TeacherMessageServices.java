@@ -5,7 +5,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import com.school.service.updata;
+import com.school.service.insert;
 
 @Path("TeacherMessage")
 public class TeacherMessageServices {
@@ -17,7 +17,7 @@ public class TeacherMessageServices {
 	@Consumes("application/x-www-form-urlencoded")
     public String postStudentMessage(String data) {
         //System.out.println(data);
-        updata student = new updata();
+        insert student = new insert();
         student.getTeacherAllMessage(data);
         return "200";
     }

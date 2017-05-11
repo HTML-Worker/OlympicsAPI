@@ -11,13 +11,13 @@ import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 
 import com.school.beans.document;
+import com.school.beans.newsNotes;
 import com.school.service.select;
 
 /**
@@ -49,6 +49,13 @@ public class UserInfo {
 		return ""+ list +"";
 	}
 	
+	/**
+	 * 页面相关链接文章查询接口
+	 * @param name
+	 * @param start
+	 * @param end
+	 * @return
+	 */
 	@GET
 	@Path("/title/{name}/{statr}/{end}")
 	@Produces("text/plain;charset=gbk")
@@ -61,5 +68,22 @@ public class UserInfo {
 		return ""+ list +"";
 	}
 	
+	/**
+	 * 新闻及重大事件文章接口
+	 * @param name
+	 * @param id
+	 * @return
+	 */
+	@GET
+	@Path("/newsNotes/{id}")
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.TEXT_PLAIN_TYPE})
+	@Consumes("application/x-www-form-urlencoded")
+	public String  getContent(@PathParam("id") int id) {
+		select select = new select();
+		ArrayList<newsNotes> list = select.getContent(id);
+		//System.out.println(name + id);
+		return ""+ list +"";
+	}
 
 }

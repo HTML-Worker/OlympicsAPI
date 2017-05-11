@@ -169,7 +169,6 @@ public class studentRegisterMessage {
 		list.add("'" + "'");//参赛组别默认为空
 		//System.out.println(list);
 		return list;
-		
 	}
 	
 }
