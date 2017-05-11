@@ -18,6 +18,7 @@ import com.school.beans.document;
 import com.school.beans.land;
 import com.school.beans.newsNotes;
 import com.school.beans.studentRegisterMessage;
+import com.school.beans.teacherRegisterMessage;
 import com.school.dbHelp.jdbc;
 import com.school.util.buildSqlString;
 
@@ -223,7 +224,7 @@ public class select {
 	}
 	
 	/**
-	 * 查询正在登陆的用户
+	 * 查询学生信息
 	 * @return
 	 */
 	public ArrayList<studentRegisterMessage> getStudentMessage(String userName) {
@@ -253,6 +254,41 @@ public class select {
 				student.setEntryType(rs.getString("entryType"));
 				student.setGroup(rs.getString("group"));
 				list.add(student);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<teacherRegisterMessage> getTeacherMessage(String userName) {
+		String sql = "select * from teacher_login_message " + "where username=" + "'" + userName + "'";
+		//System.out.println(sql);
+		conn = jdbc.getConn();
+		ArrayList<teacherRegisterMessage> list = new ArrayList<teacherRegisterMessage>();
+		try {
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			while(rs.next()) {
+				teacherRegisterMessage teacher = new teacherRegisterMessage();
+				teacher.setId(rs.getInt("id"));
+				teacher.setExamine(rs.getInt("examine"));
+				teacher.setUsername(rs.getString("username"));
+				teacher.setPassword(rs.getString("password"));
+				teacher.setName(rs.getString("name"));
+				teacher.setSex(rs.getString("sex"));
+				teacher.setPeopleId(rs.getString("peopleId"));
+				teacher.setPhone(rs.getString("phone"));
+				teacher.setEmail(rs.getString("email"));
+				teacher.setSchool(rs.getString("school"));
+				teacher.setAddress(rs.getString("address"));
+				teacher.setZipCode(rs.getString("zipCode"));
+				list.add(teacher);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
