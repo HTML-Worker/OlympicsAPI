@@ -275,18 +275,35 @@ public class select {
 	public ArrayList<studentRegisterMessage> getAllStudentMessage(String data) {
 		String sql = "";
 		JSONObject  json = JSONObject .fromObject(data);
-		if (json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-			sql = "select * from student_login_message" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		if (json.getString("teacher").equals("")) {
+			if (json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+				sql = "select * from student_login_message" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}
+			else if (json.getString("name").equals("") && !json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+				sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}
+			else if (!json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+				sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}else if (json.getString("end").equals("0")) {
+				sql = "select * from student_login_message order by id desc";
+			}else {
+				sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}
 		}
-		else if (json.getString("name").equals("") && !json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-			sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-		}
-		else if (!json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-			sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-		}else if (json.getString("end").equals("0")) {
-			sql = "select * from student_login_message";
-		}else {
-			sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		else {
+			if (json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+				sql = "select * from student_login_message where teacherName=" + "'" + json.getString("teacher") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}
+			else if (json.getString("name").equals("") && !json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+				sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}
+			else if (!json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+				sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}else if (json.getString("end").equals("0")) {
+				sql = "select * from student_login_message where teacherName=" + "'" + json.getString("teacher") + "'" +" order by id desc";
+			}else {
+				sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}
 		}
 		
 		conn = jdbc.getConn();
