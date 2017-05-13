@@ -8,6 +8,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+
+import com.school.beans.document;
 import com.school.beans.studentRegisterMessage;
 import com.school.service.select;
 import com.school.service.update;
@@ -43,10 +45,27 @@ public class StudentMessageServices {
 	@Produces("text/plain;charset=gbk")
 	//@Produces({MediaType.TEXT_PLAIN_TYPE})
 	@Consumes("application/x-www-form-urlencoded")
-	public String  getContent(@PathParam("name") String name) {
+	public String  getStudentMessage(@PathParam("name") String name) {
 		select select = new select();
 		ArrayList<studentRegisterMessage> list = select.getStudentMessage(name);
 		//System.out.println(name + id);
+		return ""+ list +"";
+	}
+	
+	/**
+	 * 按要求查询学生信息
+	 * @param data
+	 * @return
+	 */
+	@POST
+	@Path("/allStudentMessage")
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
+	@Consumes("application/x-www-form-urlencoded")
+	public String  getAllStudentMessage(String data) {
+		select select = new select();
+		ArrayList<studentRegisterMessage> list = select.getAllStudentMessage(data);
+		//System.out.println(list);
 		return ""+ list +"";
 	}
 	

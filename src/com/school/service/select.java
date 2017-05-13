@@ -266,6 +266,71 @@ public class select {
 		return list;
 	}
 	
+	/**
+	 * 条件查询所有学生信息
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public ArrayList<studentRegisterMessage> getAllStudentMessage(String data) {
+		String sql = "";
+		JSONObject  json = JSONObject .fromObject(data);
+		if (json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+			sql = "select * from student_login_message" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		}
+		else if (json.getString("name").equals("") && !json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+			sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		}
+		else if (!json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+			sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		}else if (json.getString("end").equals("0")) {
+			sql = "select * from student_login_message";
+		}else {
+			sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		}
+		
+		conn = jdbc.getConn();
+		//System.out.println(sql);
+		ArrayList<studentRegisterMessage> list = new ArrayList<studentRegisterMessage>();
+		try {
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			while(rs.next()) {
+				studentRegisterMessage student = new studentRegisterMessage();
+				student.setId(rs.getInt("id"));
+				student.setExamine(rs.getInt("examine"));
+				student.setPay(rs.getInt("pay"));
+				student.setUsername(rs.getString("username"));
+				student.setPassword(rs.getString("password"));
+				student.setName(rs.getString("name"));
+				student.setSex(rs.getString("sex"));
+				student.setPeopleId(rs.getString("peopleId"));
+				student.setPhone(rs.getString("phone"));
+				student.setEmail(rs.getString("email"));
+				student.setSchool(rs.getString("school"));
+				student.setGrade(rs.getString("grade"));
+				student.setLanguage(rs.getString("language"));
+				student.setTeacherName(rs.getString("teacherName"));
+				student.setEntryType(rs.getString("entryType"));
+				student.setGroup(rs.getString("group"));
+				list.add(student);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * 查询指定教师信息
+	 * @param userName
+	 * @return
+	 */
 	public ArrayList<teacherRegisterMessage> getTeacherMessage(String userName) {
 		String sql = "select * from teacher_login_message " + "where username=" + "'" + userName + "'";
 		//System.out.println(sql);
