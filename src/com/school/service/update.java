@@ -67,7 +67,15 @@ public class update {
 	 */
 	public String changeStudentPassword(String data) {
 		JSONObject  json = JSONObject .fromObject(data);
-		String sql = "update student_login_message set password=" + "'" + json.getString("password") + "'" + " where username=" + "'" + json.getString("username") + "'";
+		String sql = "";
+		if (json.getString("username").equals("")) {
+			String s = json.getString("studentNum").substring(1,json.getString("studentNum").length()-1);
+			sql = "update student_login_message set password='123456' where id in (" + s + ")";
+		}
+		else {
+			sql = "update student_login_message set password=" + "'" + json.getString("password") + "'" + " where username=" + "'" + json.getString("username") + "'";
+		}
+		
 		conn = jdbc.getConn();
 		try {
 			stat = conn.createStatement();
