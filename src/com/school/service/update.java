@@ -61,7 +61,7 @@ public class update {
 	}
 	
 	/**
-	 * 修改学生登陆密码
+	 * 修改学生登陆密码和重置密码
 	 * @param data
 	 * @return
 	 */

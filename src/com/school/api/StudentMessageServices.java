@@ -13,6 +13,7 @@ import com.school.beans.document;
 import com.school.beans.studentRegisterMessage;
 import com.school.service.select;
 import com.school.service.update;
+import com.school.service.delete;
 import com.school.service.insert;
 
 @Path("StudentMessage")
@@ -83,6 +84,23 @@ public class StudentMessageServices {
         //System.out.println(data);
         update student = new update();
         String message = student.changeStudentPassword(data);
+        return message;
+    }
+	
+	/**
+	 * 删除学生信息接口
+	 * @param data
+	 * @return
+	 */
+	@POST
+	@Path("/deleteStudentMessage")
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
+	@Consumes("application/x-www-form-urlencoded")
+    public String deleteStudentMessage(String data) {
+        //System.out.println(data);
+        delete student = new delete();
+        String message = student.deleteStudentMessage(data);
         return message;
     }
 	
