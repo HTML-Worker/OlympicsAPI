@@ -267,7 +267,7 @@ public class select {
 	}
 	
 	/**
-	 * 条件查询所有学生信息
+	 * 条件查询学生信息
 	 * @param start
 	 * @param end
 	 * @return
@@ -275,37 +275,93 @@ public class select {
 	public ArrayList<studentRegisterMessage> getAllStudentMessage(String data) {
 		String sql = "";
 		JSONObject  json = JSONObject .fromObject(data);
-		if (json.getString("teacher").equals("")) {
-			if (json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-				sql = "select * from student_login_message" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		if (json.containsKey("examine")) {
+			//判断是否按审核状态查询
+			if (json.getString("teacher").equals("")) {
+				//仅仅按分页查询所有信息
+				if (json.getString("name").equals("") && json.getString("examine").equals("全部") && !json.getString("end").equals("0")) {
+					sql = "select * from student_login_message" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}else if (json.getString("name").equals("") && !json.getString("examine").equals("全部") && !json.getString("end").equals("0")) {
+					if (json.getString("examine").equals("审核通过")) {
+						sql = "select * from student_login_message where examine='1' order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					} else if (json.getString("examine").equals("待审核")) {
+						sql = "select * from student_login_message where examine='0' order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					} else if (json.getString("examine").equals("已拒绝")) {
+						sql = "select * from student_login_message where examine='2' order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					}
+				} else if (!json.getString("name").equals("") && json.getString("examine").equals("全部") && !json.getString("end").equals("0")) {
+					sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				} else if (json.getString("end").equals("0")) {
+					sql = "select * from student_login_message order by id desc";
+				} else {
+					if (json.getString("examine").equals("审核通过")) {
+						sql = "select * from student_login_message where examine='1' and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					} else if (json.getString("examine").equals("待审核")) {
+						sql = "select * from student_login_message where examine='0' and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					} else if (json.getString("examine").equals("已拒绝")) {
+						sql = "select * from student_login_message where examine='2' and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					}
+				}
 			}
-			else if (json.getString("name").equals("") && !json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-				sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			else {
+				//专属教师查询
+				if (json.getString("name").equals("") && json.getString("examine").equals("全部") && !json.getString("end").equals("0")) {
+					sql = "select * from student_login_message where teacherName=" + "'" + json.getString("teacher") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				} else if (json.getString("name").equals("") && !json.getString("examine").equals("全部") && !json.getString("end").equals("0")) {
+					if (json.getString("examine").equals("审核通过")) {
+						sql = "select * from student_login_message where examine='1' and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					} else if (json.getString("examine").equals("待审核")) {
+						sql = "select * from student_login_message where examine='0' and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					} else if (json.getString("examine").equals("已拒绝")) {
+						sql = "select * from student_login_message where examine='2' and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					}
+				} else if (!json.getString("name").equals("") && json.getString("examine").equals("全部") && !json.getString("end").equals("0")) {
+					sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				} else if (json.getString("end").equals("0")) {
+					sql = "select * from student_login_message where teacherName=" + "'" + json.getString("teacher") + "'" +" order by id desc";
+				} else {
+					if (json.getString("examine").equals("审核通过")) {
+						sql = "select * from student_login_message where examine='1' and " + "name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					} else if (json.getString("examine").equals("待审核")) {
+						sql = "select * from student_login_message where examine='0' and " + "name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					} else if (json.getString("examine").equals("已拒绝")) {
+						sql = "select * from student_login_message where examine='2' and " + "name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					}
+				}
 			}
-			else if (!json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-				sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-			}else if (json.getString("end").equals("0")) {
-				sql = "select * from student_login_message order by id desc";
-			}else {
-				sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		}else {
+			//普通信息查询，不考虑审核状态
+			if (json.getString("teacher").equals("")) {
+				if (json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+					sql = "select * from student_login_message" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}
+				else if (json.getString("name").equals("") && !json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+					sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}
+				else if (!json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+					sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}else if (json.getString("end").equals("0")) {
+					sql = "select * from student_login_message order by id desc";
+				}else {
+					sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}
+			}
+			else {
+				if (json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+					sql = "select * from student_login_message where teacherName=" + "'" + json.getString("teacher") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}
+				else if (json.getString("name").equals("") && !json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+					sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}
+				else if (!json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
+					sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}else if (json.getString("end").equals("0")) {
+					sql = "select * from student_login_message where teacherName=" + "'" + json.getString("teacher") + "'" +" order by id desc";
+				}else {
+					sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}
 			}
 		}
-		else {
-			if (json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-				sql = "select * from student_login_message where teacherName=" + "'" + json.getString("teacher") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-			}
-			else if (json.getString("name").equals("") && !json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-				sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-			}
-			else if (!json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-				sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-			}else if (json.getString("end").equals("0")) {
-				sql = "select * from student_login_message where teacherName=" + "'" + json.getString("teacher") + "'" +" order by id desc";
-			}else {
-				sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-			}
-		}
-		
 		conn = jdbc.getConn();
 		//System.out.println(sql);
 		ArrayList<studentRegisterMessage> list = new ArrayList<studentRegisterMessage>();
