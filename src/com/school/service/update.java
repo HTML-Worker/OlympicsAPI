@@ -61,6 +61,29 @@ public class update {
 	}
 	
 	/**
+	 * 教师基本信息修改
+	 * @param data
+	 * @return
+	 */
+	public String changeAdminPE(String data) {
+		JSONObject  json = JSONObject .fromObject(data);
+		String sql = "update admin set phone=" + "'" + json.getString("phone") + "'" + ",email=" + "'" + json.getString("email") + "'" + ",address=" + "'" + json.getString("address") + "'" +",zipCode=" + "'" + json.getString("zipCode") + "'" + " where username=" + "'" + json.getString("username") + "'";
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			//System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return "success";
+	}
+	
+	/**
 	 * 修改学生登陆密码和重置密码
 	 * @param data
 	 * @return
@@ -107,6 +130,29 @@ public class update {
 	public String changeTeacherPassword(String data) {
 		JSONObject  json = JSONObject .fromObject(data);
 		String sql = "update teacher_login_message set password=" + "'" + json.getString("password") + "'" + " where username=" + "'" + json.getString("username") + "'";
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			//System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return "success";
+	}
+	
+	/**
+	 * 修改特派员登陆密码
+	 * @param data
+	 * @return
+	 */
+	public String changeAdminPassword(String data) {
+		JSONObject  json = JSONObject .fromObject(data);
+		String sql = "update admin set password=" + "'" + json.getString("password") + "'" + " where username=" + "'" + json.getString("username") + "'";
 		conn = jdbc.getConn();
 		try {
 			stat = conn.createStatement();

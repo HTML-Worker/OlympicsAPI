@@ -8,79 +8,56 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import com.school.beans.teacherRegisterMessage;
-import com.school.service.insert;
+
+import com.school.beans.adminMessage;
 import com.school.service.select;
 import com.school.service.update;
 
-@Path("TeacherMessage")
-public class TeacherMessageServices {
-	
+@Path("AdminMessage")
+public class adminMessageServices {
 	/**
-	 * 录入教师信息
-	 * @param data
-	 * @return
-	 */
-	@POST
-	@Path("/teacherMessage")
-	@Produces("text/plain;charset=gbk")
-	//@Produces({MediaType.APPLICATION_JSON})
-	@Consumes("application/x-www-form-urlencoded")
-    public String postStudentMessage(String data) {
-        //System.out.println(data);
-        insert student = new insert();
-        student.getTeacherAllMessage(data);
-        return "200";
-    }
-	
-	/**
-	 * 教师信息获取接口
+	 * 特派员信息获取接口
 	 * @param name
 	 * @return
 	 */
 	@GET
-	@Path("/teacherMessage/{name}")
+	@Path("/adminMessage/{name}")
 	@Produces("text/plain;charset=gbk")
 	//@Produces({MediaType.TEXT_PLAIN_TYPE})
 	@Consumes("application/x-www-form-urlencoded")
 	public String  getContent(@PathParam("name") String name) {
 		select select = new select();
-		ArrayList<teacherRegisterMessage> list = select.getTeacherMessage(name);
+		ArrayList<adminMessage> list = select.getAdminMessage(name);
 		//System.out.println(name + id);
 		return ""+ list +"";
 	}
 	
 	/**
-	 * 教师电话邮箱信息修改
+	 * 特派员基本信息修改接口
 	 * @param data
 	 * @return
 	 */
 	@POST
-	@Path("/teacherPEChange")
+	@Path("/adminPEChange")
 	@Produces("text/plain;charset=gbk")
 	//@Produces({MediaType.APPLICATION_JSON})
 	@Consumes("application/x-www-form-urlencoded")
     public String changeStudentPE(String data) {
         //System.out.println(data);
-        update teacher = new update();
-        String message = teacher.changeTeacherPE(data);
+        update admin = new update();
+        String message = admin.changeAdminPE(data);
         return message;
     }
 	
-	/**
-	 * 教师密码修改接口
-	 * @param data
-	 * @return
-	 */
 	@POST
-	@Path("/teacherPasswordChange")
+	@Path("/adminPasswordChange")
 	@Produces("text/plain;charset=gbk")
 	//@Produces({MediaType.APPLICATION_JSON})
 	@Consumes("application/x-www-form-urlencoded")
-    public String changeStudentPassword(String data) {
+    public String changeAdminPassword(String data) {
         //System.out.println(data);
-        update teacher = new update();
-        String message = teacher.changeTeacherPassword(data);
+        update admin = new update();
+        String message = admin.changeAdminPassword(data);
         return message;
     }
 }

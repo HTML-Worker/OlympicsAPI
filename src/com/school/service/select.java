@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.school.beans.adminMessage;
 import com.school.beans.backMessage;
 import com.school.beans.document;
 import com.school.beans.land;
@@ -333,32 +334,32 @@ public class select {
 			//普通信息查询，不考虑审核状态
 			if (json.getString("teacher").equals("")) {
 				if (json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-					sql = "select * from student_login_message" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					sql = "select * from student_login_message where examine='1'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
 				}
 				else if (json.getString("name").equals("") && !json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-					sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					sql = "select * from student_login_message where examine='1' and grade=" + "'" + json.getString("grade") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
 				}
 				else if (!json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-					sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					sql = "select * from student_login_message where examine='1' and name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
 				}else if (json.getString("end").equals("0")) {
-					sql = "select * from student_login_message order by id desc";
+					sql = "select * from student_login_message where examine='1' order by id desc";
 				}else {
-					sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					sql = "select * from student_login_message where examine='1' and grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
 				}
 			}
 			else {
 				if (json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-					sql = "select * from student_login_message where teacherName=" + "'" + json.getString("teacher") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					sql = "select * from student_login_message where examine='1' and teacherName=" + "'" + json.getString("teacher") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
 				}
 				else if (json.getString("name").equals("") && !json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-					sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					sql = "select * from student_login_message where examine='1' and grade=" + "'" + json.getString("grade") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
 				}
 				else if (!json.getString("name").equals("") && json.getString("grade").equals("全部") && !json.getString("end").equals("0")) {
-					sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					sql = "select * from student_login_message where examine='1' and name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
 				}else if (json.getString("end").equals("0")) {
-					sql = "select * from student_login_message where teacherName=" + "'" + json.getString("teacher") + "'" +" order by id desc";
+					sql = "select * from student_login_message where examine='1' and teacherName=" + "'" + json.getString("teacher") + "'" +" order by id desc";
 				}else {
-					sql = "select * from student_login_message where grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+					sql = "select * from student_login_message where examine='1' and grade=" + "'" + json.getString("grade") + "'" + " and " + "name=" + "'" + json.getString("name") + "'" + " and " + "teacherName=" + "'" + json.getString("teacher") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
 				}
 			}
 		}
@@ -427,6 +428,37 @@ public class select {
 				teacher.setAddress(rs.getString("address"));
 				teacher.setZipCode(rs.getString("zipCode"));
 				list.add(teacher);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<adminMessage> getAdminMessage(String userName) {
+		String sql = "select * from admin " + "where username=" + "'" + userName + "'";
+		//System.out.println(sql);
+		conn = jdbc.getConn();
+		ArrayList<adminMessage> list = new ArrayList<adminMessage>();
+		try {
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			while(rs.next()) {
+				adminMessage admin = new adminMessage();
+				admin.setId(rs.getInt("id"));
+				admin.setUsername(rs.getString("username"));
+				admin.setPassword(rs.getString("password"));
+				admin.setName(rs.getString("name"));
+				admin.setPhone(rs.getString("phone"));
+				admin.setEmail(rs.getString("email"));
+				admin.setAddress(rs.getString("address"));
+				admin.setZipCode(rs.getString("zipCode"));
+				list.add(admin);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
