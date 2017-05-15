@@ -84,7 +84,7 @@ public class update {
 	}
 	
 	/**
-	 * 修改学生登陆密码和重置密码
+	 * 修改学生登陆密码和重置密码,学生审核状态修改
 	 * @param data
 	 * @return
 	 */
@@ -165,6 +165,29 @@ public class update {
 			jdbc.close(conn,stat,rs);
 		}
 		
+		return "success";
+	}
+	
+	public String changeTeacherExamine(String data) {
+		JSONObject  json = JSONObject.fromObject(data);
+		String sql = "";
+		String s = json.getString("teacherNum").substring(1,json.getString("teacherNum").length()-1);
+		if (json.getString("examine").equals("true")) {
+			sql = "update teacher_login_message set examine=1 where id in (" + s + ")";
+		}else if (json.getString("examine").equals("false")) {
+			sql = "update teacher_login_message set examine=2 where id in (" + s + ")";
+		}
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			//System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
 		return "success";
 	}
 }

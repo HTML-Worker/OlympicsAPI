@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+
 import com.school.beans.teacherRegisterMessage;
 import com.school.service.insert;
 import com.school.service.select;
@@ -26,7 +27,7 @@ public class TeacherMessageServices {
 	@Produces("text/plain;charset=gbk")
 	//@Produces({MediaType.APPLICATION_JSON})
 	@Consumes("application/x-www-form-urlencoded")
-    public String postStudentMessage(String data) {
+    public String postTeacherMessage(String data) {
         //System.out.println(data);
         insert student = new insert();
         student.getTeacherAllMessage(data);
@@ -43,7 +44,7 @@ public class TeacherMessageServices {
 	@Produces("text/plain;charset=gbk")
 	//@Produces({MediaType.TEXT_PLAIN_TYPE})
 	@Consumes("application/x-www-form-urlencoded")
-	public String  getContent(@PathParam("name") String name) {
+	public String  getTeacherMessage(@PathParam("name") String name) {
 		select select = new select();
 		ArrayList<teacherRegisterMessage> list = select.getTeacherMessage(name);
 		//System.out.println(name + id);
@@ -60,7 +61,7 @@ public class TeacherMessageServices {
 	@Produces("text/plain;charset=gbk")
 	//@Produces({MediaType.APPLICATION_JSON})
 	@Consumes("application/x-www-form-urlencoded")
-    public String changeStudentPE(String data) {
+    public String changeTeacherPE(String data) {
         //System.out.println(data);
         update teacher = new update();
         String message = teacher.changeTeacherPE(data);
@@ -77,10 +78,55 @@ public class TeacherMessageServices {
 	@Produces("text/plain;charset=gbk")
 	//@Produces({MediaType.APPLICATION_JSON})
 	@Consumes("application/x-www-form-urlencoded")
-    public String changeStudentPassword(String data) {
+    public String changeTeacherPassword(String data) {
         //System.out.println(data);
         update teacher = new update();
         String message = teacher.changeTeacherPassword(data);
         return message;
     }
+	
+	/**
+	 * 查询所有教师信息
+	 * @return
+	 */
+	@GET
+	@Path("/allTeacherMessage")
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
+	@Consumes("application/x-www-form-urlencoded")
+	public String  getAllTeacherMessage() {
+		select select = new select();
+		ArrayList<teacherRegisterMessage> list = select.getAllTeacherMessage();
+		//System.out.println(list);
+		return ""+ list +"";
+	}
+	
+	/**
+	 * 按条件查询教师信息
+	 * @param data
+	 * @return
+	 */
+	@POST
+	@Path("/getTeacherMessageRule")
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
+	@Consumes("application/x-www-form-urlencoded")
+	public String  getTeacherMessageRule(String data) {
+		select select = new select();
+		ArrayList<teacherRegisterMessage> list = select.getTeacherMessageRule(data);
+		//System.out.println(list);
+		return ""+ list +"";
+	}
+	
+	@POST
+	@Path("/teacherExamine")
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
+	@Consumes("application/x-www-form-urlencoded")
+	public String changeTeacherExamine(String data) {
+		update update = new update();
+		String message = update.changeTeacherExamine(data);
+		//System.out.println(list);
+		return message;
+	}
 }

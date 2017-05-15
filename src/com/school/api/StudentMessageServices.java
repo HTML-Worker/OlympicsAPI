@@ -9,7 +9,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import com.school.beans.document;
 import com.school.beans.studentRegisterMessage;
 import com.school.service.select;
 import com.school.service.update;
