@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,6 +19,7 @@ import javax.ws.rs.Produces;
 
 import com.school.beans.document;
 import com.school.beans.newsNotes;
+import com.school.beans.teacherRegisterMessage;
 import com.school.service.select;
 
 /**
@@ -83,6 +85,22 @@ public class UserInfo {
 		select select = new select();
 		ArrayList<newsNotes> list = select.getContent(id);
 		//System.out.println(name + id);
+		return ""+ list +"";
+	}
+	
+	/**
+	 * 按条件查询title
+	 * @return
+	 */
+	@POST
+	@Path("/searchTitle")
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.TEXT_PLAIN_TYPE})
+	@Consumes("application/x-www-form-urlencoded")
+	public String  searchTitle(String data) {
+		select select = new select();
+		ArrayList<document> list = select.searchTitle(data);
+		//System.out.println(data);
 		return ""+ list +"";
 	}
 

@@ -35,13 +35,13 @@ public class select {
 	
 	
 	/**
-	 * 获取关于页面的文章内容
+	 * 获取文章内容
 	 * @param tableName
 	 * @param id
 	 * @return
 	 */
 	public ArrayList<document> getContent(String tableName,int id) {
-		String sql = "select id,content from " + tableName + " where id=" + id;
+		String sql = "select * from " + tableName + " where id=" + id;
 		conn = jdbc.getConn();
 		ArrayList<document> list = new ArrayList<document>();
 		try {
@@ -50,7 +50,7 @@ public class select {
 			while(rs.next()) {
 				document document = new document();
 				document.setId(rs.getString("id"));
-				//document.setTitle(rs.getString("title"));
+				document.setTitle(rs.getString("title"));
 				document.setContent(rs.getString("content"));
 				//document.setCount(rs.getString("count"));
 				//document.setTime(rs.getString("time"));
@@ -67,7 +67,13 @@ public class select {
 		return list;
 	}
 	
-	
+	/**
+	 * get方法url传参获取文章标题
+	 * @param tableName
+	 * @param start
+	 * @param end
+	 * @return
+	 */
 	public ArrayList<document> getDocumentTitle(String tableName, int start, int end) {
 		if (start <= 0) {
 			start = 0;
@@ -76,6 +82,46 @@ public class select {
 			end = 7;
 		}
 		String sql = "select id,title,count,time from " + tableName + " order by id desc limit " + start + "," + end;
+		conn = jdbc.getConn();
+		ArrayList<document> list = new ArrayList<document>();
+		try {
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			while(rs.next()) {
+				document document = new document();
+				document.setId(rs.getString("id"));
+				document.setTitle(rs.getString("title"));
+				//document.setContent(rs.getString("content"));
+				document.setCount(rs.getString("count"));
+				document.setTime(rs.getString("time"));
+				list.add(document);
+				//System.out.println(rs.getString("title"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * 条件查询文章标题
+	 * @param data
+	 * @return
+	 */
+	public ArrayList<document> searchTitle(String data) {
+		String sql = "";
+		JSONObject  json = JSONObject .fromObject(data);
+		if(json.getString("title").equals("")) {
+			sql = "select * from " + json.getString("table") + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		}else {
+			sql = "select * from " + json.getString("table") + " where title like" + "'%" + json.getString("title") + "%'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		}
+		//System.out.println(sql);
 		conn = jdbc.getConn();
 		ArrayList<document> list = new ArrayList<document>();
 		try {
