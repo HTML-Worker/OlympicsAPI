@@ -200,18 +200,21 @@ public class select {
 			while(rs.next()) {
 				i++;
 				message.setName(rs.getString("username"));
+				message.setExamine(1);
 			}
 			if (0 == i) {
 				rs2 = stat.executeQuery(sqlTch);
 				while(rs2.next()) {
 					i++;
 					message.setName(rs2.getString("username"));
+					message.setExamine(rs2.getInt("examine"));
 				}
 				if (0 == i) {
 					rs3 = stat.executeQuery(sqlStu);
 					while(rs3.next()) {
 						i++;
 						message.setName(rs3.getString("username"));
+						message.setExamine(rs3.getInt("examine"));
 					}
 					if (0 == i) {
 						message.setFlag(false);
