@@ -14,6 +14,23 @@ public class update {
 	Statement stat = null;
 	ResultSet rs = null;
 	
+	public String changeCount(String name, int id) {
+		String sql = "update " + name + " set count=count+1 where id=" + id;
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			//System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return "success";
+	}
+	
 	/**
 	 * 修改学生电话和邮件地址
 	 * @param data

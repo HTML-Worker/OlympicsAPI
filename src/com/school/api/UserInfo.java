@@ -21,6 +21,7 @@ import com.school.beans.document;
 import com.school.beans.newsNotes;
 import com.school.beans.teacherRegisterMessage;
 import com.school.service.select;
+import com.school.service.update;
 
 /**
  * 
@@ -47,12 +48,14 @@ public class UserInfo {
 	public String  getContent(@PathParam("name") String name, @PathParam("id") int id) {
 		select select = new select();
 		ArrayList<document> list = select.getContent(name, id);
+		update update = new update();
+		update.changeCount(name, id);
 		//System.out.println(name + id);
 		return ""+ list +"";
 	}
 	
 	/**
-	 * 页面相关链接文章查询接口
+	 * 热点文章标题查询接口
 	 * @param name
 	 * @param start
 	 * @param end

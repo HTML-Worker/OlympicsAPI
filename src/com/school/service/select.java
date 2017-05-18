@@ -116,10 +116,14 @@ public class select {
 	public ArrayList<document> searchTitle(String data) {
 		String sql = "";
 		JSONObject  json = JSONObject .fromObject(data);
-		if(json.getString("title").equals("")) {
-			sql = "select * from " + json.getString("table") + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		if(json.containsKey("id")) {
+			sql = "select * from " + json.getString("table") + " where id=0";
 		}else {
-			sql = "select * from " + json.getString("table") + " where title like" + "'%" + json.getString("title") + "%'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			if(json.getString("title").equals("")) {
+				sql = "select * from " + json.getString("table") + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}else {
+				sql = "select * from " + json.getString("table") + " where title like" + "'%" + json.getString("title") + "%'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}
 		}
 		//System.out.println(sql);
 		conn = jdbc.getConn();
