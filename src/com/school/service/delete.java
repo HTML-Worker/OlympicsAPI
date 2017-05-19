@@ -33,4 +33,29 @@ public class delete {
 		
 		return "success";
 	}
+	
+	/**
+	 * 删除教师信息
+	 * @param data
+	 * @return
+	 */
+	public String deleteTeacherMessage(String data) {
+		JSONObject  json = JSONObject .fromObject(data);
+		String s = json.getString("studentNum").substring(1,json.getString("studentNum").length()-1);
+		String sql = "delete from teacher_login_message where id in (" + s + ")";
+		//System.out.println(sql);
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			//System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return "success";
+	}
 }

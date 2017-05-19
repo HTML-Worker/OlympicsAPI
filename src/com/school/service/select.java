@@ -345,8 +345,8 @@ public class select {
 					}
 				} else if (!json.getString("name").equals("") && json.getString("examine").equals("全部") && !json.getString("end").equals("0")) {
 					sql = "select * from student_login_message where name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-				} else if (json.getString("end").equals("0")) {
-					sql = "select * from student_login_message order by id desc";
+				} else if (json.getString("end").equals("0") && !json.getString("examine").equals("全部")) {
+					sql = "select * from student_login_message where examine = '1' order by id desc";
 				} else {
 					if (json.getString("examine").equals("审核通过")) {
 						sql = "select * from student_login_message where examine='1' and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
@@ -417,7 +417,7 @@ public class select {
 			}
 		}
 		conn = jdbc.getConn();
-		//System.out.println(sql);
+		System.out.println(sql);
 		ArrayList<studentRegisterMessage> list = new ArrayList<studentRegisterMessage>();
 		try {
 			stat = conn.createStatement();

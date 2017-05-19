@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.school.beans.teacherRegisterMessage;
+import com.school.service.delete;
 import com.school.service.insert;
 import com.school.service.select;
 import com.school.service.update;
@@ -151,4 +152,16 @@ public class TeacherMessageServices {
 		//System.out.println(list);
 		return message;
 	}
+	
+	@POST
+	@Path("/deleteTeacherMessage")
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
+	@Consumes("application/x-www-form-urlencoded")
+    public String deleteTeacherMessage(String data) {
+        //System.out.println(data);
+        delete teacher = new delete();
+        String message = teacher.deleteTeacherMessage(data);
+        return message;
+    }
 }
