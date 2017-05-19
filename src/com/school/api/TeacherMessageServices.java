@@ -118,6 +118,28 @@ public class TeacherMessageServices {
 		return ""+ list +"";
 	}
 	
+	/**
+	 * 按条件查询教师信息
+	 * @param data
+	 * @return
+	 */
+	@GET
+	@Path("/getExamineTeacherMessage")
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
+	@Consumes("application/x-www-form-urlencoded")
+	public String  getExamineTeacherMessage() {
+		select select = new select();
+		ArrayList<teacherRegisterMessage> list = select.getExamineTeacherMessage();
+		//System.out.println(list);
+		return ""+ list +"";
+	}
+	
+	/**
+	 * 教师审核状态修改接口
+	 * @param data
+	 * @return
+	 */
 	@POST
 	@Path("/teacherExamine")
 	@Produces("text/plain;charset=gbk")

@@ -568,6 +568,44 @@ public class select {
 	}
 	
 	/**
+	 * 特派员获取审核通过的教师信息接口
+	 * @return
+	 */
+	public ArrayList<teacherRegisterMessage> getExamineTeacherMessage() {
+		String sql = "select * from teacher_login_message where examine=1 order by id desc";
+		//System.out.println(sql);
+		conn = jdbc.getConn();
+		ArrayList<teacherRegisterMessage> list = new ArrayList<teacherRegisterMessage>();
+		try {
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			while(rs.next()) {
+				teacherRegisterMessage teacher = new teacherRegisterMessage();
+				teacher.setId(rs.getInt("id"));
+				teacher.setExamine(rs.getInt("examine"));
+				teacher.setUsername(rs.getString("username"));
+				teacher.setPassword(rs.getString("password"));
+				teacher.setName(rs.getString("name"));
+				teacher.setSex(rs.getString("sex"));
+				teacher.setPeopleId(rs.getString("peopleId"));
+				teacher.setPhone(rs.getString("phone"));
+				teacher.setEmail(rs.getString("email"));
+				teacher.setSchool(rs.getString("school"));
+				teacher.setAddress(rs.getString("address"));
+				teacher.setZipCode(rs.getString("zipCode"));
+				list.add(teacher);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		return list;
+	}
+	
+	/**
 	 * 按条件查询教师信息
 	 * @param data
 	 * @return
@@ -575,25 +613,37 @@ public class select {
 	public ArrayList<teacherRegisterMessage> getTeacherMessageRule(String data) {
 		String sql = "";
 		JSONObject json = JSONObject .fromObject(data);
-		if (json.getString("name").equals("") && json.getString("examine").equals("全部")) {
-			sql = "select * from teacher_login_message" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-		}else if (json.getString("name").equals("") && !json.getString("examine").equals("全部")) {
-			if (json.getString("examine").equals("审核通过")) {
-				sql = "select * from teacher_login_message where examine='1' order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-			} else if (json.getString("examine").equals("待审核")) {
-				sql = "select * from teacher_login_message where examine='0' order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-			} else if (json.getString("examine").equals("已拒绝")) {
-				sql = "select * from teacher_login_message where examine='2' order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		if (json.containsKey("school")) {
+			if (json.getString("name").equals("") && json.getString("school").equals("全部")) {
+				sql = "select * from teacher_login_message where examine='1'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			} else if (json.getString("name").equals("") && !json.getString("school").equals("全部")) {
+				sql = "select * from teacher_login_message where examine='1' and school=" + "'" + json.getString("school") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}else if (!json.getString("name").equals("") && json.getString("school").equals("全部")) {
+				sql = "select * from teacher_login_message where examine='1' and name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}else if (!json.getString("name").equals("") && !json.getString("school").equals("全部")) {
+				sql = "select * from teacher_login_message where examine='1' and school=" + "'" + json.getString("school") + "'" + " and name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
 			}
-		} else if (!json.getString("name").equals("") && json.getString("examine").equals("全部")) {
-			sql = "select * from teacher_login_message where name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-		} else {
-			if (json.getString("examine").equals("审核通过")) {
-				sql = "select * from teacher_login_message where examine='1' and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-			} else if (json.getString("examine").equals("待审核")) {
-				sql = "select * from teacher_login_message where examine='0' and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
-			} else if (json.getString("examine").equals("已拒绝")) {
-				sql = "select * from teacher_login_message where examine='2' and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+		}else {
+			if (json.getString("name").equals("") && json.getString("examine").equals("全部")) {
+				sql = "select * from teacher_login_message" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			}else if (json.getString("name").equals("") && !json.getString("examine").equals("全部")) {
+				if (json.getString("examine").equals("审核通过")) {
+					sql = "select * from teacher_login_message where examine='1' order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				} else if (json.getString("examine").equals("待审核")) {
+					sql = "select * from teacher_login_message where examine='0' order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				} else if (json.getString("examine").equals("已拒绝")) {
+					sql = "select * from teacher_login_message where examine='2' order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}
+			} else if (!json.getString("name").equals("") && json.getString("examine").equals("全部")) {
+				sql = "select * from teacher_login_message where name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+			} else {
+				if (json.getString("examine").equals("审核通过")) {
+					sql = "select * from teacher_login_message where examine='1' and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				} else if (json.getString("examine").equals("待审核")) {
+					sql = "select * from teacher_login_message where examine='0' and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				} else if (json.getString("examine").equals("已拒绝")) {
+					sql = "select * from teacher_login_message where examine='2' and " + "name=" + "'" + json.getString("name") + "'" + " order by id desc limit " + json.getInt("start") + "," + json.getInt("end");
+				}
 			}
 		}
 		//System.out.println(sql);

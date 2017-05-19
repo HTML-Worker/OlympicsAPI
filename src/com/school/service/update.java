@@ -140,13 +140,19 @@ public class update {
 	}
 	
 	/**
-	 * 修改教师登陆密码
+	 * 修改教师登陆密码和重置教师密码
 	 * @param data
 	 * @return
 	 */
 	public String changeTeacherPassword(String data) {
+		String sql = "";
 		JSONObject  json = JSONObject .fromObject(data);
-		String sql = "update teacher_login_message set password=" + "'" + json.getString("password") + "'" + " where username=" + "'" + json.getString("username") + "'";
+		String s = json.getString("studentNum").substring(1,json.getString("studentNum").length()-1);
+		if (json.containsKey("studentNum")) {
+			sql = "update teacher_login_message set password='123456'" + " where id in (" + s + ")";
+		}else {
+			sql = "update teacher_login_message set password=" + "'" + json.getString("password") + "'" + " where username=" + "'" + json.getString("username") + "'";
+		}
 		conn = jdbc.getConn();
 		try {
 			stat = conn.createStatement();
