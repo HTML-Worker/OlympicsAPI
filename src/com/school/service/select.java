@@ -417,7 +417,7 @@ public class select {
 			}
 		}
 		conn = jdbc.getConn();
-		System.out.println(sql);
+		//System.out.println(sql);
 		ArrayList<studentRegisterMessage> list = new ArrayList<studentRegisterMessage>();
 		try {
 			stat = conn.createStatement();

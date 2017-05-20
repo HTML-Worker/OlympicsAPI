@@ -191,6 +191,11 @@ public class update {
 		return "success";
 	}
 	
+	/**
+	 * ÐÞ¸Ä½ÌÊ¦ÉóºË×´Ì¬
+	 * @param data
+	 * @return
+	 */
 	public String changeTeacherExamine(String data) {
 		JSONObject  json = JSONObject.fromObject(data);
 		String sql = "";
@@ -211,6 +216,23 @@ public class update {
 		}finally {
 			jdbc.close(conn,stat,rs);
 		}
+		return "success";
+	}
+	
+	public String allStudentPayChange() {
+		String sql = "update student_login_message set pay='0'";
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			//System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
 		return "success";
 	}
 }

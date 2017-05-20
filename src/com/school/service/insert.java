@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.school.beans.gameIssue;
 import com.school.beans.land;
 import com.school.beans.studentRegisterMessage;
 import com.school.beans.teacherRegisterMessage;
@@ -98,5 +99,32 @@ public class insert {
 		}finally {
 			jdbc.close(conn,stat,rs);
 		}
+	}
+	
+	/**
+	 * 录入赛事信息
+	 * @param data
+	 * @return
+	 */
+	public String pushGameIssue(String data) {
+		JSONObject  json = JSONObject .fromObject(data);
+		gameIssue gameIssue = new gameIssue();
+		ArrayList<Object> list = gameIssue.pushData(json);
+		String s = list.toString().substring(1,list.toString().length()-1);
+		String sql = "insert into game_issue values("+ s +")";
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			//System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return "success";
 	}
 }
