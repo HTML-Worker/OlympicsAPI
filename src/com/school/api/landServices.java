@@ -15,6 +15,11 @@ import com.school.service.insert;
 
 @Path("LandMessage")
 public class landServices {
+	/**
+	 * 登陆账号验证
+	 * @param data
+	 * @return
+	 */
 	@POST
 	@Path("/land")
 	@Produces("text/plain;charset=gbk")
@@ -27,6 +32,11 @@ public class landServices {
         return "" + message + "";
     }
 	
+	/**
+	 * 登陆信息录入
+	 * @param data
+	 * @return
+	 */
 	@POST
 	@Path("/loginIn")
 	@Produces("text/plain;charset=gbk")

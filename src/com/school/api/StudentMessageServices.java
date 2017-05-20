@@ -119,4 +119,21 @@ public class StudentMessageServices {
         String message = student.changeStudentPE(data);
         return message;
     }
+	
+	/**
+	 * 学生报名状态修改接口
+	 * @param data
+	 * @return
+	 */
+	@POST
+	@Path("/changeStudentPay")
+	@Produces("text/plain;charset=gbk")
+	//@Produces({MediaType.APPLICATION_JSON})
+	@Consumes("application/x-www-form-urlencoded")
+    public String changeStudentPay(String data) {
+        //System.out.println(data);
+        update student = new update();
+        String message = student.studentPayChange(data);
+        return message;
+    }
 }

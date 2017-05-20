@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import com.school.beans.adminMessage;
 import com.school.beans.backMessage;
 import com.school.beans.document;
+import com.school.beans.gameIssue;
 import com.school.beans.land;
 import com.school.beans.newsNotes;
 import com.school.beans.studentRegisterMessage;
@@ -667,6 +668,33 @@ public class select {
 				teacher.setAddress(rs.getString("address"));
 				teacher.setZipCode(rs.getString("zipCode"));
 				list.add(teacher);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		return list;
+	}
+	
+	public ArrayList<gameIssue> getGameIssueMessage() {
+		String sql = "select * from game_issue order by id desc limit 0,1";
+		//System.out.println(sql);
+		conn = jdbc.getConn();
+		ArrayList<gameIssue> list = new ArrayList<gameIssue>();
+		try {
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			while(rs.next()) {
+				gameIssue gameIssue = new gameIssue();
+				gameIssue.setId(rs.getInt("id"));
+				gameIssue.setName(rs.getString("name"));
+				gameIssue.setType(rs.getString("type"));
+				gameIssue.setTime_start(rs.getString("time_start"));
+				gameIssue.setTime_end(rs.getString("time_end"));
+				list.add(gameIssue);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

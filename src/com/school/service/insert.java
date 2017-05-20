@@ -124,7 +124,6 @@ public class insert {
 		}finally {
 			jdbc.close(conn,stat,rs);
 		}
-		
 		return "success";
 	}
 }

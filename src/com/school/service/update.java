@@ -219,8 +219,34 @@ public class update {
 		return "success";
 	}
 	
+	/**
+	 * 删除学生报名状态
+	 * @return
+	 */
 	public String allStudentPayChange() {
 		String sql = "update student_login_message set pay='0'";
+		conn = jdbc.getConn();
+		try {
+			stat = conn.createStatement();
+			//System.out.println(sql);
+			stat.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			jdbc.close(conn,stat,rs);
+		}
+		
+		return "success";
+	}
+	
+	/**
+	 * 学生报名状态修改
+	 * @return
+	 */
+	public String studentPayChange(String data) {
+		JSONObject  json = JSONObject.fromObject(data);
+		String sql = "update student_login_message set pay='1' where id=" + "'" + json.getInt("id") + "'";
 		conn = jdbc.getConn();
 		try {
 			stat = conn.createStatement();
